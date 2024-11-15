@@ -1,0 +1,24 @@
+import sqlite3
+
+def iniciar_sesion(correo, contraseña):
+    connection = sqlite3.connect('usuarios.db')
+    cursor = connection.cursor()
+
+    # Consultar si existe el usuario
+    cursor.execute('''
+    SELECT * FROM usuarios WHERE correo = ? AND contraseña = ?
+    ''', (correo, contraseña))
+    usuario = cursor.fetchone()
+
+    if usuario:
+        print(f"Bienvenido, {usuario[1]}!")
+    else:
+        print("Correo o contraseña incorrectos.")
+    
+    connection.close()
+
+# Solicitar datos para iniciar sesión
+correo = input("Correo: ")
+contraseña = input("Contraseña: ")
+
+iniciar_sesion(correo, contraseña)
