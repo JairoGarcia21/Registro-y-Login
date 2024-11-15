@@ -1,0 +1,26 @@
+import sqlite3
+
+def registrar_usuario(nombre, correo, contraseña):
+    connection = sqlite3.connect('usuarios.db')
+    cursor = connection.cursor()
+
+    try:
+        # Insertar usuario en la base de datos
+        cursor.execute('''
+        INSERT INTO usuarios (nombre, correo, contraseña)
+        VALUES (?, ?, ?)
+        ''', (nombre, correo, contraseña))
+
+        connection.commit()
+        print("Usuario registrado exitosamente.")
+    except sqlite3.IntegrityError:
+        print("Error: El correo ya está registrado.")
+    finally:
+        connection.close()
+
+# Solicitar datos al usuario
+nombre = input("Nombre: ")
+correo = input("Correo: ")
+contraseña = input("Contraseña: ")
+
+registrar_usuario(nombre, correo, contraseña)
